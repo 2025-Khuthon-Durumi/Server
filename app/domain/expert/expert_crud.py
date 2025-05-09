@@ -121,7 +121,7 @@ expert_data = {
         "신체기능 예방": ["유아체육강사", "아동발달지도사"],
         "신체기능 치료재활": ["작업치료사", "물리치료사"]
     },
-    "청년": {
+    "청소년": {
         "정신기능 예방": ["진로상담사", "정신건강상담사", "사회복지사"],
         "정신기능 치료재활": ["임상심리사", "정신건강상담사", "정신과 간호사"],
         "신체기능 예방": ["운동처방사", "생활체육지도사"],
@@ -225,7 +225,7 @@ def search(db: Session, req: ExpertSearch, user_id):
     sorted_experts = sorted(similarities, key=lambda x: x[1], reverse=True)
 
     # 상위 4개의 전문가만 반환
-    top_4_experts = sorted_experts[:3]
+    # top_4_experts = sorted_experts[:6]
 
     return [ExpertEmbedding(
         id=expert.id,
@@ -238,7 +238,7 @@ def search(db: Session, req: ExpertSearch, user_id):
         region=expert.region,
         name=db.query(User).filter(User.id == expert.id).first().name,
         similarity=similarity
-    ) for expert, similarity in top_4_experts]
+    ) for expert, similarity in sorted_experts]
 
 
 def random_name(length=8):
